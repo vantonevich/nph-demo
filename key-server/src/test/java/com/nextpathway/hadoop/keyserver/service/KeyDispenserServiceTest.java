@@ -2,29 +2,29 @@ package com.nextpathway.hadoop.keyserver.service;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.text.ParseException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class KeyDispenserServiceTest implements KeyDispenserServiceSite {
+public class KeyDispenserServiceTest {
 
 	KeyDispenserService service;
 	
 	@Before
 	public void setUp() throws Exception {
-		service = new KeyDispenserServiceImpl(this);
+		// i.e.
+		// keytool -genkey -alias tester -dname "cn=tester,dc=nextpathway,dc=com" -keystore keyserver_keystore -keysize 2048 -validity 100000 -keyalg RSA
+		URL resourceURL = KeyDispenserServiceImpl.class.getClassLoader().getResource("keyserver_keystore");
+		String path = new File(resourceURL.toURI()).toString();
+		service = new KeyDispenserServiceImpl(
+				   /*store:*/path,
+				/*keyAlias:*/"tester", 
+			   /*storePass:*/"tester",
+				 /*keyPass:*/"tester");
 	}
 
 	@After
@@ -33,20 +33,13 @@ public class KeyDispenserServiceTest implements KeyDispenserServiceSite {
 	}
 
 	@Test
-	public void testDecodePrivateKeyRequest() 
-			throws InvalidKeyException, NoSuchAlgorithmException, SignatureException, NoSuchPaddingException, 
-				IllegalBlockSizeException, BadPaddingException, IOException, InvalidPrivateKeyRequestException, 
-				ParseException
+	public void testDecodePrivateKeyRequest() throws KeyDispenserException, UnsupportedEncodingException
 	{
+		byte[] enc = org.springframework.security.crypto.codec.Base64.encode("fred:fred".getBytes("UTF-8"));
+		String s = new String(enc);
+		System.out.println("===>>> hash == " + s);
 		String request = service.getPrivateKeyRequest();
 		String key = service.getPrivateKey(request);
 		assertNotNull("Unable to decode private key request", key);
-	}
-
-	@Override
-	public KeyPair getKeyPair() throws NoSuchAlgorithmException {
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-		kpg.initialize(2048);
-		return kpg.genKeyPair();
 	}
 }
