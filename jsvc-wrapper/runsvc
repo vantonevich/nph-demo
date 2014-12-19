@@ -1,0 +1,27 @@
+#!/bin/bash
+# -outfile /var/log/hadoop/hadoopdfs/hadoop-hadoopdfs-hadoopdfs-datanode-Vladimirs-MacBook-Pro.local.out
+#    -errfile /var/log/hadoop/hadoopdfs/privileged-hadoopdfs-datanode-Vladimirs-MacBook-Pro.local.err
+#    -pidfile /tmp/hadoop-hadoopdfs-hadoopdfs-datanode.pid
+# -detach
+# -user hadoopdfs
+#     -jvm server
+
+java -Dproc_datanode \
+    -cp ./target/jsvc-wrapper-0.0.1-SNAPSHOT.jar:/usr/local/hadoop/latest/etc/hadoop:/usr/local/hadoop/latest/share/hadoop/common/lib/*:/usr/local/hadoop/latest/share/hadoop/common/*:/usr/local/hadoop/latest/share/hadoop/hdfs:/usr/local/hadoop/latest/share/hadoop/hdfs/lib/*:/usr/local/hadoop/latest/share/hadoop/hdfs/*:/usr/local/hadoop/latest/share/hadoop/yarn/lib/*:/usr/local/hadoop/latest/share/hadoop/yarn/*:/usr/local/hadoop/latest/share/hadoop/mapreduce/lib/*:/usr/local/hadoop/latest/share/hadoop/mapreduce/* \
+    -Djava.net.preferIPv4Stack=true \
+    -Djava.security.krb5.realm=HADOOPDEMO.COM \
+    -Djava.security.krb5.kdc=kerberos.hadoopdemo.com \
+    -Djava.security.krb5.conf=/etc/krb5.conf \
+    -Djava.security.krb5.debug=true \
+    -Dhadoop.security.logger=ERROR,RFAS \
+    -Xmx1024m \
+    -Djava.library.path=/usr/local/hadoop/latest/lib/native \
+    -Dhadoop.log.dir=/var/log/hadoop/hadoopdfs \
+    -Dhadoop.log.file=hadoop-hadoopdfs-hadoopdfs-datanode-Vladimirs-MacBook-Pro.local.log \
+    -Dhadoop.home.dir=/usr/local/hadoop/latest \
+    -Dhadoop.id.str=hadoopdfs \
+    -Dhadoop.root.logger=INFO,RFA \
+    -Dhadoop.policy.file=hadoop-policy.xml \
+    com.nextpathway.jsvc.wrapper.App \
+    org.apache.hadoop.hdfs.server.datanode.SecureDataNodeStarter
+

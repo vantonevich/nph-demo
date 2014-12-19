@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>KeepAlive</key>
+    <false/>
+    <key>Label</key>
+    <string>com.nextpathway.hadoop.datanode</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/java</string>
+        <string>-Dproc_datanode</string>
+        <string>-cp</string>
+        <string>/usr/local/hadoop/bin/jsvc-wrapper-0.0.1-SNAPSHOT.jar:/usr/local/hadoop/latest/etc/hadoop:/usr/local/hadoop/latest/share/hadoop/common/lib/*:/usr/local/hadoop/latest/share/hadoop/common/*:/usr/local/hadoop/latest/share/hadoop/hdfs:/usr/local/hadoop/latest/share/hadoop/hdfs/lib/*:/usr/local/hadoop/latest/share/hadoop/hdfs/*:/usr/local/hadoop/latest/share/hadoop/yarn/lib/*:/usr/local/hadoop/latest/share/hadoop/yarn/*:/usr/local/hadoop/latest/share/hadoop/mapreduce/lib/*:/usr/local/hadoop/latest/share/hadoop/mapreduce/*</string>
+        <string>-Djava.net.preferIPv4Stack=true</string>
+        <string>-Djava.security.krb5.realm=HADOOPDEMO.COM</string>
+        <string>-Djava.security.krb5.kdc=kerberos.hadoopdemo.com</string>
+        <string>-Djava.security.krb5.conf=/etc/krb5.conf</string>
+        <string>-Djava.security.krb5.debug=true</string>
+        <string>-Dhadoop.security.logger=ERROR,RFAS</string>
+        <string>-Xmx1024m</string>
+        <string>-Djava.library.path=/usr/local/hadoop/latest/lib/native</string>
+        <string>-Dhadoop.log.dir=/var/log/hadoop/hadoopdfs</string>
+        <string>-Dhadoop.log.file=secure-datanode.log</string>
+        <string>-Dhadoop.home.dir=/usr/local/hadoop/latest</string>
+        <string>-Dhadoop.id.str=hadoopdfs</string>
+        <string>-Dhadoop.root.logger=INFO,RFA</string>
+        <string>-Dhadoop.policy.file=hadoop-policy.xml</string>
+        <string>com.nextpathway.jsvc.wrapper.App</string>
+        <string>org.apache.hadoop.hdfs.server.datanode.SecureDataNodeStarter</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>Debug</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/var/log/hadoop/hadoopdfs/secure-datanode-jsvc-wrapper.err</string>
+    <key>StandardOutPath</key>
+    <string>/var/log/hadoop/hadoopdfs/secure-datanode-jsvc-wrapper.log</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/hadoopdfs</string>
+<!--
+    <key>Sockets</key>
+        <dict>
+            <key>Listeners</key>
+            <dict>
+               <key>SockServiceName</key>
+               <string>1004</string>
+               <key>SockType</key>
+               <string>stream</string>
+               <key>SockFamily</key>
+               <string>IPv4</string>
+            </dict>
+            <key>Other listeners</key>
+            <dict>
+               <key>SockServiceName</key>
+               <string>1006</string>
+               <key>SockType</key>
+               <string>stream</string>
+               <key>SockFamily</key>
+               <string>IPv4</string>
+            </dict>
+
+       </dict>
+-->
+</dict>
+</plist>
